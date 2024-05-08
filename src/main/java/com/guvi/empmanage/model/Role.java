@@ -17,7 +17,8 @@ public class Role {
     private  Long id;
     private  String name;
 
-
-    public Role(String roleUser) {
+//1-arg constructor
+    public Role(String name) {
+        this.name=name;
     }
 }

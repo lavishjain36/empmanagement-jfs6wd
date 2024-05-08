@@ -32,7 +32,12 @@ public class User {
     inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "id"))
     private Collection<Role> roles;
 
-
-    public <T> User(String firstName, String lastName, String email, String encode, List<T> roleUser) {
+    //constructor for all above entity field.
+    public User(String firstName, String lastName, String password, String email, Collection<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.email = email;
+        this.roles = roles;
     }
 }

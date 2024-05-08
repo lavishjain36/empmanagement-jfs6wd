@@ -28,11 +28,13 @@ public class UserServiceImpl implements  UserService{
     @Override
     public User save(UserRegistrationDto registrationDto) {
         //create new user object with registration dto
+        System.out.println("email:"+registrationDto.getEmail());
+        System.out.println("password "+registrationDto.getPassword());
         User user=new User(
                 registrationDto.getFirstName(),
                 registrationDto.getLastName(),
-                registrationDto.getEmail(),
                 passwordEncoder.encode(registrationDto.getPassword()),
+                registrationDto.getEmail(),
                 Arrays.asList(new Role("ROLE_USER")));
 
         return userRepository.save(user);

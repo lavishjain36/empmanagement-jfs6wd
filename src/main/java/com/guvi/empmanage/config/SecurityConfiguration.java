@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AndRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -39,8 +41,32 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http){
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         //implement
+        http.csrf().disable()
+                .cors().disable()
+                .authorizeHttpRequests().requestMatchers(
+                        "/registration**",
+                                "js/**","/css/**","/img/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .permitAll()
+                .and()
+                .logout()
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login?logout")//redirect to login page
+                .permitAll()
+                .and()
+                .authenticationProvider(authenticationProvider());
+
+
+        return http.build();
     }
 
 
